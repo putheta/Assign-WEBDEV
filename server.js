@@ -7,11 +7,35 @@ const customers = [
   { id: 5678, name: "James Lukather", birthdate: "1980-01-02" },
 ];
 
-// make Express.js able to parse json body
+// make Express.js able to parsenode json body
 app.use(express.json());
 
 const convert = response => response.json()
-const url = "https://script.google.com/macros/s/AKfycbzwclqJRodyVjzYyY-NTQDb9cWG6Hoc5vGAABVtr5-jPA_ET_2IasrAJK4aeo5XoONiaA/exec"
+const url = "https://script.google.com/macros/s/AKfycbzwclqJRodyVjzYyY-NTQDb9cWG6Hoc5vGAABVtr5-jPA_ET_2IasrAJK4aeo5XoONiaA/exec" ;
+const logs_url = "https://app-tracking.pockethost.io/api/collections/drone_logs/records"
+
+app.post("/logs",async (req,res)=>{
+  console.log("posting log data");
+  console.log(req.body);
+  const rawData = await fetch(logs_url,
+    {
+      method : "POST",
+      headers:{
+        "Content-Type" : "application/json"
+      },
+      body :JSON.stringify(req.body)
+    });
+  res.send("OK");
+})
+
+
+app.get("/logs",async(req,res)=>{
+console.log("/logs")
+const rawData = await fetch(logs_url,{method:"GET"});
+const jsonData = await rawData.json();
+const logs = jsonData.items ;
+res.send(logs);
+})
 
 //get / config/5
 app.get("/config/:id", async (req,res)=>{
