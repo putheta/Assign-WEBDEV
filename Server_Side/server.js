@@ -30,11 +30,29 @@ app.post("/logs" , async (req,res) => {
 
 app.get("/logs" , async (req,res) => {
   console.log("/logs");
-  const rawData = await fetch(logs_url,{method:"GET"});
-  const jsonData = await rawData.json();
-  const logs = jsonData.items;
-  console.log("test");
-  res.send(logs);
+
+  fetch (logs_url , {method:"GET"})
+  .then(rawData => rawData.json())
+  .then(jsonData => res.send(jsonData.items))
+
+})
+
+app.get("/config" , async (req,res)=>{
+  console.log("/configs")
+
+  fetch (url , {method:"GET"})
+  .then(rawData => rawData.json())
+  .then(jsonData => res.send(jsonData.data))
+
+})
+
+app.get("/config/:id" , async(req,res) => {
+  console.log("wait for input id")
+  const id = req.params.id
+  const drone = fetch(url,{method:"GET"})
+  .then(rawData=>rawData.json())
+  .then(jsonData=>jsonData.data)
+  res.send(drone)
 
 })
 
