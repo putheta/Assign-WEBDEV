@@ -54,15 +54,15 @@ app.get("/config/:id", async (req,res)=>{
   myDrone.max_speed = myDrone.max_speed > 110 ? 110 : myDrone.max_speed;
 
 
-  if (myDrone.max_speed == null) 
-  {
-    myDrone.max_speed = 100 ;
-  }
+  // if (myDrone.max_speed == null) 
+  // {
+  //   myDrone.max_speed = 100 ;
+  // }
 
 
-  if (myDrone.max_speed > 110) {
-    myDrone.max_speed = 110 ;
-  }
+  // if (myDrone.max_speed > 110) {
+  //   myDrone.max_speed = 110 ;
+  // }
 
   res.send(myDrone);
   

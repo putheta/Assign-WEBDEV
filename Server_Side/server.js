@@ -49,11 +49,29 @@ app.get("/config" , async (req,res)=>{
 app.get("/config/:id" , async(req,res) => {
   console.log("wait for input id")
   const id = req.params.id
-  const drone = fetch(url,{method:"GET"})
-  .then(rawData=>rawData.json())
-  .then(jsonData=>jsonData.data)
-  res.send(drone)
+  const drone = await (await (await fetch(url,{method:"GET"})).json()).data
+  const myDrone = drone.find(data => data.drone_id == id)
+  console.log(myDrone)
+   
+  myDrone.max_speed = (myDrone.max_speed == null) ? 100 : myDrone.max_speed // เป็น null มั้ย ถ้าเป็น กำหนดให้เป็น 100 else ให้มีค่าเท่าเดิม
+  myDrone.max_speed = (myDrone.max_speed > 110 ) ? 110 : myDrone.max_speed // มากกว่า 110 มั้ย ถ้าเป็น กำหนดให้เป็น 110 else ให้มีค่าเท่าเดิม
 
+  res.send(myDrone)
+})
+
+app.get("/status/:id" , async (req,res)=>{
+  console.log("status-id")
+  const id = req.params.id
+  const drone = await (await (await fetch (url,{method:"GET"})).json()).data
+  const myDrone = drone.find(data=>data.drone_id == id)
+  if (myDrone) {
+    res.send({condition : myDrone.condition})
+  }
+  else {
+    res.send({condition : "not found"})
+  }
+
+  
 })
 
 app.listen(PORT,()=>{
