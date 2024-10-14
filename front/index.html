@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Commander</title>
+    <style>
+        h1 {
+            text-align: center;
+            color: rgb(168, 212, 255);
+            text-shadow: 0 1px 1px rgb(35, 90, 172);
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>KMITL IOT</h1>
+
+        <p id="drone_id">Drone ID</p>
+        <p id="drone_name" >Drone Name</p>
+        <p>Light</p>
+        <p>Maximum Speed</p>
+        <p>Country</p>
+        <p>Population</p>
+    </div>
+    <script>
+        const node_drone_id = document.getElementById("drone_id")
+        const config = {
+            "drone_id": 3001,
+            "drone_name": "Dot Dot",
+            "condition": "good",
+            "light": "on",
+            "max_speed": null,
+            "country": "India",
+            "population": 1450935791
+        }
+        const url ="http://localhost:8000/configs";
+
+        async function getConfig() {
+            const rawData = fetch(url);
+            const jsonData = await rawData.json();
+            return config;
+        }
+        async function main() {
+            node_drone_id.innerHTML = `Drone Id:${config.drone_id}`;
+            node_drone_name.innerHTML = `Drone Name:${config.drone_name}`;
+        }
+
+        main();
+    </script>
+</body>
+</html>
